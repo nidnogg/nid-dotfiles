@@ -38,11 +38,13 @@ Import-Module PSReadLine
 
 # Default font used to be DejaVu Sans Mono, size 12pt
 
-# Aliases for missing nix commands
+# Aliases for improved/missing nix commands
 # ripgrep as grep
 Set-Alias -Name grep -Value rg
 # ni as touch
 Set-Alias -Name touch -Value ni
+# lsd as ls
+Set-Alias -Name ls -Value lsd
 
 # Starship startup utilities
 function Start-Starship
