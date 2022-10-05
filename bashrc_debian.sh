@@ -114,7 +114,8 @@ if ! shopt -oq posix; then
 fi
 
 # startup commands
-screenfetch
+# Zeitfetch
+zeitfetch
 G='/mnt/g'
 D='/mnt/d'
 C='/mnt/c/Users/henri'

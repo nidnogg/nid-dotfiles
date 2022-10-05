@@ -3,8 +3,8 @@
 # Removing bell
 Set-PSReadlineOption -BellStyle None
 
-# Run Screenfetch (should be ultra fast)
-winfetch
+# Run zeitfetch 
+zeitfetch
 
 # Environment Variables
 $C = 'C:\localdev'
