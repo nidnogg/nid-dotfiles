@@ -114,7 +114,10 @@ if ! shopt -oq posix; then
 fi
 
 # startup commands
-# Zeitfetch
+
+# rustc needs to be added to PATH here for rust binaries to work on startup
+export PATH="$HOME/.cargo/bin:$PATH"
+
 zeitfetch
 G='/mnt/g'
 D='/mnt/d'
