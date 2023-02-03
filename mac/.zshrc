@@ -137,3 +137,7 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+source /Users/nidnogg/.docker/init-zsh.sh || true # Added by Docker Desktop
+
+[[ -s "/Users/nidnogg/.gvm/scripts/gvm" ]] && source "/Users/nidnogg/.gvm/scripts/gvm"
