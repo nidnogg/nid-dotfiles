@@ -140,4 +140,4 @@ eval "$(pyenv init -)"
 
 source /Users/nidnogg/.docker/init-zsh.sh || true # Added by Docker Desktop
 
-[[ -s "/Users/nidnogg/.gvm/scripts/gvm" ]] && source "/Users/nidnogg/.gvm/scripts/gvm"
+
