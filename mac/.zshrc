@@ -110,7 +110,7 @@ zeitfetch
 WORK=$HOME'/localdev/fetchly'
 JOBSP=$HOME'/localdev/fetchly/jobspeaker'
 
-# echo some reminders 
+# echo some reminders
 echo "sudo is 2jh + 4"
 echo "Current defined variables:"
 echo "\$WORK, \$JOBSP"
@@ -139,5 +139,11 @@ command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 source /Users/nidnogg/.docker/init-zsh.sh || true # Added by Docker Desktop
+
+# Used for autocompletion in Kubernetes
+source <(kubectl completion zsh)
+
+# $GOPATH/bin for any `go install` projects
+export PATH=$PATH:$(go env GOPATH)/bin
 
 
