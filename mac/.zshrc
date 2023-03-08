@@ -146,4 +146,31 @@ source <(kubectl completion zsh)
 # $GOPATH/bin for any `go install` projects
 export PATH=$PATH:$(go env GOPATH)/bin
 
+# For rbenv
+eval "$(rbenv init - zsh)"
 
+# ockam development
+export PATH="$HOME/localdev/ockam/target/debug:$PATH"
+
+function ockam_test() {
+  local ockam_dir="$HOME/localdev/ockam"
+  local bats_test="$ockam_dir/implementations/rust/ockam/ockam_command/tests/bats"
+
+  # Run the Bats test
+  bats "$bats_test"
+}
+
+function ockam_rebase() {
+  local ockam_dev_dir="$HOME/localdev/ockam"
+  if [ "$(pwd)" = $ockam_dev_dir ]; then
+    echo "Starting ockam develop rebase. Don't forget to git push origin -f <cur_branch> once the rebase is complete."
+    local cur_branch=$(git rev-parse --abbrev-ref HEAD)
+    git checkout develop \
+    && git fetch upstream develop \
+    && git pull upstream develop \
+    && git checkout $cur_branch \
+    && git rebase -i develop
+  else
+    echo "Check that your current directory matches your local ockam development directory at $ockam_dev_dir"
+  fi
+}
