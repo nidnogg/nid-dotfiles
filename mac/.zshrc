@@ -149,6 +149,11 @@ export PATH=$PATH:$(go env GOPATH)/bin
 # For rbenv
 eval "$(rbenv init - zsh)"
 
+# unsafe chrome
+function unsafe_chrome() {
+  $(open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security)
+}
+
 # ockam development
 export PATH="$HOME/localdev/ockam/target/debug:$PATH"
 
