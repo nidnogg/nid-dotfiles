@@ -114,6 +114,8 @@ JOBSP=$HOME'/localdev/fetchly/jobspeaker'
 echo "sudo is 2jh + 4"
 echo "Current defined variables:"
 echo "\$WORK, \$JOBSP"
+echo "Current helper functions:"
+echo "cherome (unsafe_chrome), ockam_rebase, ockam_test"
 
 # aliases
 alias ls="lsd"
@@ -150,19 +152,48 @@ export PATH=$PATH:$(go env GOPATH)/bin
 eval "$(rbenv init - zsh)"
 
 # unsafe chrome
-function unsafe_chrome() {
+function cherome() {
+  echo "Booting Google Chrome with `--disable-web-security` flag..."
   $(open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security)
+}
+
+# For gh release in jobspeaker format
+function create_release() {
+  local tag=$1
+  local cur_branch=$(git rev-parse --abbrev-ref HEAD)
+  echo "Creating release for tag $1"
+  echo "Latest release info:"
+  gh release list | grep "Latest"
+  read "response?Are you sure? [Y/n] "
+  # response=${response:l} # :l is tolower
+  response=${response}
+  if [[ $response =~ ^(y| ) ]] || [[ -z $response ]]; then
+      gh release create $1 --title "$1" --target $cur_branch
+  else
+      echo "Aborting"
+  fi
 }
 
 # ockam development
 export PATH="$HOME/localdev/ockam/target/debug:$PATH"
 
+# Usage:
+# `ockam_test unit`
+# `ockam_test`
 function ockam_test() {
   local ockam_dir="$HOME/localdev/ockam"
   local bats_test="$ockam_dir/implementations/rust/ockam/ockam_command/tests/bats"
+  local test_name=$1
 
-  # Run the Bats test
-  bats "$bats_test"
+  if [$test_name]; then
+    echo "Running main ockam test suite"
+    bats "$bats_test"
+  else
+    echo "Selected $test_name test"
+    echo "Running $test_names.bats"
+    local selected_bats_test="$bats_test/$test_name"
+    bats "$selected_bats_test"
+  fi
 }
 
 function ockam_rebase() {
