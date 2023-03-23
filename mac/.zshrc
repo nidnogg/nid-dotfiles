@@ -151,6 +151,13 @@ export PATH=$PATH:$(go env GOPATH)/bin
 # For rbenv
 eval "$(rbenv init - zsh)"
 
+# this function queries wikipedia for a keyword via DNS. base command courtesy of commandlinefu
+function wikit() {
+  local keyword=$1
+  echo "dig +short txt \"$keyword\".wp.dg.cx"
+  dig +short txt \"$keyword\".wp.dg.cx
+}
+
 # unsafe chrome
 function cherome() {
   echo "Booting Google Chrome with `--disable-web-security` flag..."
@@ -161,17 +168,24 @@ function cherome() {
 function create_release() {
   local tag=$1
   local cur_branch=$(git rev-parse --abbrev-ref HEAD)
-  echo "Creating release for tag $1"
+  echo "Creating release for tag $tag"
   echo "Latest release info:"
   gh release list | grep "Latest"
   read "response?Are you sure? [Y/n] "
   # response=${response:l} # :l is tolower
   response=${response}
   if [[ $response =~ ^(y| ) ]] || [[ -z $response ]]; then
-      gh release create $1 --title "$1" --target $cur_branch
+      gh release create $tag --title "$tag" --target $cur_branch
   else
       echo "Aborting"
   fi
+
+  # TO-DO Maybe work on this later
+  # echo "If you want to edit your release number, enter it now: "
+  # read "override_tag?"
+  # if $override_tag then
+  #   $tag=${override_tag}
+  # fi
 }
 
 # ockam development
@@ -182,18 +196,19 @@ export PATH="$HOME/localdev/ockam/target/debug:$PATH"
 # `ockam_test`
 function ockam_test() {
   local ockam_dir="$HOME/localdev/ockam"
-  local bats_test="$ockam_dir/implementations/rust/ockam/ockam_command/tests/bats"
+  local bats_test="$ockam_dir/implementations/rust/ockam/ockam_command/tests/bats/unit.bats"
   local test_name=$1
 
-  if [$test_name]; then
-    echo "Running main ockam test suite"
-    bats "$bats_test"
-  else
-    echo "Selected $test_name test"
-    echo "Running $test_names.bats"
-    local selected_bats_test="$bats_test/$test_name"
-    bats "$selected_bats_test"
-  fi
+  # if [$test_name]; then
+  #   echo "Running main ockam test suite"
+  #   bats "$bats_test"
+  # else
+    # echo "Selected $test_name test"
+    # echo "Running $test_names.bats"
+    # local selected_bats_test="$bats_test"
+    # bats "$selected_bats_test"
+  # fi
+  bats "$bats_test"
 }
 
 function ockam_rebase() {
@@ -210,3 +225,11 @@ function ockam_rebase() {
     echo "Check that your current directory matches your local ockam development directory at $ockam_dev_dir"
   fi
 }
+
+eval "$(atuin init zsh --disable-up-arrow)"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/nidnogg/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nidnogg/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/nidnogg/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nidnogg/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
