@@ -115,7 +115,7 @@ echo "sudo is 2jh + 4"
 echo "Current defined variables:"
 echo "\$WORK, \$JOBSP"
 echo "Current helper functions:"
-echo "cherome (unsafe_chrome), ockam_rebase, ockam_test"
+echo "cherome (unsafe_chrome), ockam_rebase, ockam_test, sweep"
 
 # aliases
 alias ls="lsd"
@@ -186,6 +186,13 @@ function create_release() {
   # if $override_tag then
   #   $tag=${override_tag}
   # fi
+}
+
+# Requires cargo-sweep crate to be installed
+function sweep() {
+  local timeout=30
+  cargo sweep -r -t $timeout $HOME/localdev
+  echo "...Finished cargo sweep"
 }
 
 # ockam development
