@@ -115,7 +115,7 @@ echo "sudo is 2jh + 4"
 echo "Current defined variables:"
 echo "\$WORK, \$JOBSP"
 echo "Current helper functions:"
-echo "cherome (unsafe_chrome), ockam_rebase, ockam_test, sweep"
+echo "cherome (unsafe_chrome), ockam_rebase, ockam_test"
 
 # aliases
 alias ls="lsd"
@@ -188,11 +188,37 @@ function create_release() {
   # fi
 }
 
-# Requires cargo-sweep crate to be installed
-function sweep() {
-  local timeout=30
-  cargo sweep -r -t $timeout $HOME/localdev
-  echo "...Finished cargo sweep"
+# ruby legacy support (specifically for OpenSSL). only use if using something
+# such as RUBY_CONFIGURE_OPTS=--with-openssl-dir='/opt/homebrew/Cellar/openssl@1.0/1.0.2u' rbenv install 2.3.0
+# (e.g. for jobspeaker-api)
+# export PATH="/opt/homebrew/Cellar/openssl@1.0/1.0.2u/bin:$PATH"
+# export LDFLAGS="-L/opt/homebrew/Cellar/openssl@1.0/1.0.2u/lib"
+# export CPPFLAGS="-I/opt/homebrew/Cellar/openssl@1.0/1.0.2u/include"
+# export RUBY_CFLAGS="-DUSE_FFI_CLOSURE_ALLOC"
+
+# jobspeaker development
+function jobspeaker_api_rails() {
+  local jobspeaker_api_dir="$JOBSP/jobspeaker-api"
+  local container_id=$(docker ps -qf "ancestor=jobspeaker-api-api")
+  cd $jobspeaker_api_dir
+  echo "Attaching to jobspeaker-api rails container id #$container_id"
+  docker exec -it $(docker ps -qf "ancestor=jobspeaker-api-api") bash
+}
+
+function jobspeaker_api_mysql() {
+  local jobspeaker_api_dir="$JOBSP/jobspeaker-api"
+  local container_id=$(docker ps -qf "ancestor=mysql:5.6.49")
+  cd $jobspeaker_api_dir
+  echo "Attaching to jobspeaker-api mysql container id #$container_id"
+  docker exec -it $(docker ps -qf "ancestor=mysql:5.6.49") bash -c "mysql jobspeaker_dev -u root --password=teste123"
+}
+
+function jobspeaker_api_attach() {
+  local jobspeaker_api_dir="$JOBSP/jobspeaker-api"
+  local container_id=$(docker ps -qf "ancestor=jobspeaker-api-api")
+  cd $jobspeaker_api_dir
+  echo "Attaching to jobspeaker-api rails container id #$container_id"
+  docker attach --sig-proxy=false $container_id
 }
 
 # ockam development
@@ -233,10 +259,31 @@ function ockam_rebase() {
   fi
 }
 
+function cec_ssh_hook() {
+  ssh -i $HOME/.ssh/cec_gcp_key henriquevt98@gmail.com@34.95.224.74
+}
+
+# BFG alternative to git-filter-branch (branch API cleanup)
+alias bfg="java -jar $HOME/localdev/bfg/bfg-1.14.0.jar"
+
+# Atuin shell history
 eval "$(atuin init zsh --disable-up-arrow)"
 
+# Google Cloud utilities (mainly for gc-sql)
+
+export PATH="$HOME/localdev/gc-sql/target/debug:$PATH"
+export PATH="$HOME/localdev/gcloud:$PATH"
+
+
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/nidnogg/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nidnogg/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/nidnogg/localdev/gcloud/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nidnogg/localdev/gcloud/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/nidnogg/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nidnogg/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/nidnogg/localdev/gcloud/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nidnogg/localdev/gcloud/google-cloud-sdk/completion.zsh.inc'; fi
+
+# bun completions
+[ -s "/Users/nidnogg/.bun/_bun" ] && source "/Users/nidnogg/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
