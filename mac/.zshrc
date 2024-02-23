@@ -274,12 +274,14 @@ eval "$(atuin init zsh --disable-up-arrow)"
 export PATH="$HOME/localdev/gc-sql/target/debug:$PATH"
 export PATH="$HOME/localdev/gcloud:$PATH"
 
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/nidnogg/localdev/gcloud/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nidnogg/localdev/gcloud/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/nidnogg/localdev/gcloud/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nidnogg/localdev/gcloud/google-cloud-sdk/completion.zsh.inc'; fi
+
+# For Linux/Windows docker compose setups
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 # bun completions
 [ -s "/Users/nidnogg/.bun/_bun" ] && source "/Users/nidnogg/.bun/_bun"
