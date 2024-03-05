@@ -221,6 +221,13 @@ function jobspeaker_api_attach() {
   docker attach --sig-proxy=false $container_id
 }
 
+# bun completions
+[ -s "/Users/nidnogg/.bun/_bun" ] && source "/Users/nidnogg/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
 # ockam development
 export PATH="$HOME/localdev/ockam/target/debug:$PATH"
 
@@ -263,6 +270,28 @@ function cec_ssh_hook() {
   ssh -i $HOME/.ssh/cec_gcp_key henriquevt98@gmail.com@34.95.224.74
 }
 
+# Checker functions. Might look into offloading them off this rc later
+function check_grad_bot() {
+  if [ $(ps aux | grep "grad_bot" | wc -l) -eq 2 ]; then
+    echo "grad-bot is running"
+  else
+    echo "grad-bot not detected. Please open a new terminal tab."
+    cd $HOME/localdev/grad-bot
+    ./run_grad_bot.sh
+  fi
+}
+
+check_grad_bot
+
+
+function check_expensio_meter_infra() {
+  local expensio_meter_dir="$HOME/localdev/expensio-meter-infra"
+  $expensio_meter_dir/expensio_meter_runner.sh
+}
+
+check_expensio_meter_infra
+
+
 # BFG alternative to git-filter-branch (branch API cleanup)
 alias bfg="java -jar $HOME/localdev/bfg/bfg-1.14.0.jar"
 
@@ -283,9 +312,9 @@ if [ -f '/Users/nidnogg/localdev/gcloud/google-cloud-sdk/completion.zsh.inc' ]; 
 # For Linux/Windows docker compose setups
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
-# bun completions
-[ -s "/Users/nidnogg/.bun/_bun" ] && source "/Users/nidnogg/.bun/_bun"
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+
+# postgres stuff
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+
