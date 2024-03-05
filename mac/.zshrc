@@ -272,7 +272,7 @@ function cec_ssh_hook() {
 
 # Checker functions. Might look into offloading them off this rc later
 function check_grad_bot() {
-  if [ $(ps aux | grep "grad_bot" | wc -l) -eq 2 ]; then
+  if [ $(ps aux | grep "grad_bot" | wc -l) -ge 2 ]; then
     echo "grad-bot is running"
   else
     echo "grad-bot not detected. Please open a new terminal tab."
