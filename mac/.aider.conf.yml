@@ -1,0 +1,51 @@
+# Aider configuration with Gruvbox dark theme colors
+
+model: anthropic/claude-3-7-sonnet-20250219
+anthropic-api-key: ${ANTHROPIC_API_KEY}
+
+# Output settings with Gruvbox dark color scheme
+dark-mode: false
+pretty: true
+stream: true
+
+# Gruvbox dark colors
+# Base colors from the Gruvbox dark palette:
+# bg: #282828, fg: #ebdbb2
+# red: #fb4934, green: #b8bb26, yellow: #fabd2f, blue: #83a598, purple: #d3869b, aqua: #8ec07c, orange: #fe8019
+
+# User input: Gruvbox light green
+user-input-color: "#fabd2f"
+
+# Assistant output: Gruvbox light blue
+assistant-output-color: "#83a598"
+
+# Tool output colors
+tool-output-color: "#ebdbb2"  # Gruvbox light foreground
+tool-error-color: "#fb4934"   # Gruvbox light red
+tool-warning-color: "#fe8019" # Gruvbox light yellow
+
+# Completion menu colors
+completion-menu-color: "#ebdbb2"      # Light foreground
+completion-menu-bg-color: "#3c3836"   # Gruvbox dark bg1
+completion-menu-current-color: "#282828"   # Gruvbox dark bg
+completion-menu-current-bg-color: "#fe8019" # Gruvbox light yellow
+
+# Markdown code theme
+code-theme: gruvbox-dark
+
+# Git settings
+git: true
+gitignore: true
+auto-commits: true
+dirty-commits: true
+attribute-author: true
+attribute-committer: true
+
+# Other settings (keeping your original configuration)
+check-update: true
+cache-prompts: false
+fancy-input: true
+detect-urls: true
+suggest-shell-commands: true
+
+
