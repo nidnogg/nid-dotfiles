@@ -11,8 +11,13 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="gruvbox" 
-SOLARIZED_THEME="dark"
+# ZSH_THEME="robbyrussell"
+ZSH_THEME="gruvbox"
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -318,3 +323,10 @@ export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 # Created by `pipx` on 2024-05-28 21:11:13
 export PATH="$PATH:/Users/nidnogg/.local/bin"
+
+# Ansible related configs
+alias ansible_vault_edit='EDITOR=nvim ansible-vault edit $HOME/localdev/nid-dotfiles-ansible/vault/nidbook.yml --vault-password-file=$HOME/localdev/vault/ansible_vault.key'
+
+# Load ansible-vault vars
+source $HOME/localdev/nid-dotfiles-ansible/vault/load_vault.sh
+
