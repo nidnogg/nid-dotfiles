@@ -312,4 +312,13 @@ esac
 # pnpm end
 
 # Apollo crap
-export APOLLO_TELEMETRY_DISABLED=1export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+export APOLLO_TELEMETRY_DISABLED=1
+
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+
+# Ansible related configs
+alias ansible_vault_edit='EDITOR=nvim ansible-vault edit $HOME/localdev/nid-dotfiles-ansible/vault/nidbook.yml --vault-password-file=$HOME/localdev/vault/ansible_vault.key'
+
+# Load ansible-vault vars
+source $HOME/localdev/nid-dotfiles-ansible/vault/load_vault.sh
+
