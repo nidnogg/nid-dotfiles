@@ -273,18 +273,28 @@ function cec_ssh_hook() {
 }
 
 # Checker functions. Might look into offloading them off this rc later
-function check_grad_bot() {
-  if [ $(ps aux | grep "grad_bot" | wc -l) -ge 2 ]; then
-    echo "grad-bot is running"
+
+# Old grad bot back in hobo infra days.
+# function check_grad_bot() {
+#   if [ $(ps aux | grep "grad_bot" | wc -l) -ge 2 ]; then
+#     echo "grad-bot is running"
+#   else
+#     echo "grad-bot not detected. Please open a new terminal tab."
+#     cd $HOME/localdev/grad-bot
+#     ./run_grad_bot.sh
+#   fi
+# }
+# check_grad_bot
+
+function check_grad_bot_fly() {
+  if flyctl status -a grad-bot | rg -q 'started|passing'; then
+    echo "grad_bot working ok in fly.io"
   else
-    echo "grad-bot not detected. Please open a new terminal tab."
-    cd $HOME/localdev/grad-bot
-    ./run_grad_bot.sh
+    echo -e "grad_bot failed! check \033[1mflyctl status -a grad-bot\033[0m for more detail."
   fi
 }
 
-check_grad_bot
-
+check_grad_bot_fly
 
 function check_expensio_meter_infra() {
   local expensio_meter_dir="$HOME/localdev/expensio-meter-infra"
