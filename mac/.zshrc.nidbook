@@ -110,11 +110,11 @@ zeitfetch
 WORK=$HOME'/localdev/caylent'
 JOBSP=$HOME'/localdev/fetchly/jobspeaker'
 EVGO=$HOME'/localdev/caylent/evgo'
-
+CLAUDE_CONFIG=$HOME'/Library/Application Support/Claude/claude_desktop_config.json'
 # echo some reminders
 echo "sudo is 2jh + 4"
 echo "Current defined variables:"
-echo "\$WORK, \$JOBSP", \$EVGO
+echo "\$WORK, \$JOBSP, \$EVGO, \$CLAUDE_CONFIG"
 echo "Current helper functions:"
 echo "cherome (unsafe_chrome), ockam_rebase, ockam_test"
 
@@ -330,3 +330,19 @@ alias ansible_vault_edit='EDITOR=nvim ansible-vault edit $HOME/localdev/nid-dotf
 # Load ansible-vault vars
 source $HOME/localdev/nid-dotfiles-ansible/vault/load_vault.sh
 
+# Gcloud Python 3.12+ issue
+export CLOUDSDK_PYTHON=$(which python3.11)
+
+# pnpm
+export PNPM_HOME="/Users/nidnogg/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+alias claude="/Users/nidnogg/.claude/local/claude"
+
+# connect to CEC ssh
+function connect_to_cec() {
+  gcloud compute ssh --zone "southamerica-east1-b" "bitnami-wordpresspro-cd12" --project "bitnami-1vo8aw9m4w"
+}
